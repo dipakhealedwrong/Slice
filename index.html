@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slice — banking made simple, smart and fast</title>
+
+ 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="slice-body">
+
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-inner">
+      <span class="loader-logo">slice<span class="logo-dot">.</span></span>
+      <div class="loader-bar"><div class="loader-bar-fill" id="loaderBarFill"></div></div>
+    </div>
+  </div>
+
+  <div class="noise-overlay"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+  <div class="glow-bg glow-1" data-speed="0.15"></div>
+  <div class="glow-bg glow-2" data-speed="0.25"></div>
+  <div class="glow-bg glow-3" data-speed="0.1"></div>
+  <div class="grid-mesh"></div>
+
+  <!-- Announcement Bar (marquee) -->
+  <div class="announcement-bar">
+    <div class="marquee-track">
+      <span class="marquee-content">
+        🎉 Slice Small Finance Bank is now live! Up to 7.75% p.a. on Fixed Deposits &nbsp;•&nbsp; Daily Interest on Savings &nbsp;•&nbsp; Instant Credit up to ₹5,00,000 &nbsp;•&nbsp; 100% RBI Repo-Rate Linked Returns &nbsp;•&nbsp;
+      </span>
+      <span class="marquee-content" aria-hidden="true">
+        🎉 Slice Small Finance Bank is now live! Up to 7.75% p.a. on Fixed Deposits &nbsp;•&nbsp; Daily Interest on Savings &nbsp;•&nbsp; Instant Credit up to ₹5,00,000 &nbsp;•&nbsp; 100% RBI Repo-Rate Linked Returns &nbsp;•&nbsp;
+      </span>
+    </div>
+    <a href="#fd" class="learn-more">Learn More →</a>
+  </div>
+
+ 
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top slice-navbar" id="navbar">
+    <div class="container">
+      <a class="navbar-brand brand-logo" href="#">
+        <span class="logo-text">slice</span><span class="logo-dot"></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-lg-4">
+          <li class="nav-item"><a class="nav-link" href="#savings">savings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#insights">insights</a></li>
+          <li class="nav-item"><a class="nav-link" href="#borrow">borrow</a></li>
+          <li class="nav-item"><a class="nav-link" href="#fd">fixed deposits</a></li>
+          <li class="nav-item"><a class="nav-link" href="#safety">safety</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faqs">faqs</a></li>
+        </ul>
+        <div class="nav-auth-group">
+          <a href="login.html" class="btn btn-outline-pink magnetic" id="navAuthBtn">Log in</a>
+          <button class="btn btn-purple btn-glow magnetic" data-bs-toggle="modal" data-bs-target="#appModal">Get the app</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-5 fade-in-up">
+          <div class="tag-pill">
+            <span class="pulse-dot"></span> RBI Regulated Small Finance Bank
+          </div>
+          <h1 class="hero-title">
+            Banking that <br>
+            <span class="gradient-text shimmer-text">moves at your speed.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Zero-balance savings with daily interest payouts, instant credit up to ₹5,00,000, 1-second UPI transfers, and high-yield FDs — all from one app.
+          </p>
+
+          <div class="hero-buttons">
+            <button class="btn btn-large btn-purple btn-glow magnetic" data-bs-toggle="modal" data-bs-target="#appModal">
+              <span>Open Account in 3 Mins</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <div class="qr-pill magnetic" data-bs-toggle="modal" data-bs-target="#appModal">
+              <div class="qr-icon">📱</div>
+              <span>Scan to Download</span>
+            </div>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number"><span class="count-up" data-target="100" data-suffix="%">0</span></span>
+              <span class="stat-label">RBI Repo Rate Tracked</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">Up to <span class="count-up" data-target="7.75" data-decimals="2" data-suffix="%">0</span></span>
+              <span class="stat-label">FD Interest Rate</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">₹<span class="count-up" data-target="5" data-suffix=" Lakhs">0</span></span>
+              <span class="stat-label">DICGC Deposit Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="hero-visual fade-in-up delay-200">
+            <canvas class="hero-particles" id="heroParticles"></canvas>
+            <div class="orbit-ring ring-1"></div>
+            <div class="orbit-ring ring-2"></div>
+            <div class="card-container" id="tiltCard">
+              <div class="glass-glow"></div>
+              <div class="slice-card">
+                <div class="card-shine"></div>
+                <div class="card-top">
+                  <span class="card-brand">slice</span>
+                  <span class="card-chip"></span>
+                </div>
+                <div class="card-middle">
+                  <div class="card-balance">
+                    <span class="lbl">Savings Account Balance</span>
+                    <span class="val" id="liveHeroBalance">₹ 2,48,920.00</span>
+                  </div>
+                </div>
+                <div class="card-bottom">
+                  <div class="card-holder">
+                    <span>DAILY INTEREST CREDITED</span>
+                    <strong class="green-text">+ ₹ 48.20 Today</strong>
+                  </div>
+                  <div class="card-type">SAVINGS</div>
+                </div>
+              </div>
+              <div class="card-reflection"></div>
+
+              <div class="floating-badge badge-top-right float-anim">
+                <span class="icon">⚡</span> 1-sec UPI Payment
+              </div>
+              <div class="floating-badge badge-bottom-left float-anim-delayed">
+                <span class="icon">🎁</span> Cashback Credited
+              </div>
+              <div class="floating-badge badge-mid-right float-anim-slow">
+                <span class="icon">🔒</span> DICGC Insured
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue">
+        <span>Scroll to explore</span>
+        <div class="scroll-cue-track"><div class="scroll-cue-dot"></div></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="features-section" id="savings">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">01 · SLICE SAVINGS ACCOUNT</span>
+        <h2>Interest paid every single day. Not quarterly.</h2>
+        <p class="section-desc">Why let banks hold your money's growth for 90 days? Slice credits interest directly into your account every single morning.</p>
+      </div>
+
+      <div class="interactive-widget-box glass-card reveal">
+        <div class="widget-header">
+          <div>
+            <h3>Daily Interest Calculator</h3>
+            <p>See how much you earn every single morning based on your balance.</p>
+          </div>
+          <span class="live-pill"><span class="pulse-dot"></span> Real-Time Compound</span>
+        </div>
+
+        <div class="row g-4 align-items-center">
+          <div class="col-md-6">
+            <label for="savingsRange">Deposit Amount: <strong id="savingsAmountText">₹ 3,00,000</strong></label>
+            <input type="range" class="form-range" id="savingsRange" min="10000" max="1000000" step="10000" value="300000">
+
+            <div class="calc-breakdown">
+              <div class="breakdown-item">
+                <span>Daily Payout</span>
+                <strong class="green-text" id="dailyEarnVal">₹ 57.53 / day</strong>
+              </div>
+              <div class="breakdown-item">
+                <span>Yearly Earnings</span>
+                <strong id="yearlyEarnVal">₹ 21,000 / year</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="notification-card">
+              <div class="notif-icon">🔔</div>
+              <div class="notif-text">
+                <strong>slice Savings Credit</strong>
+                <p>₹ <span id="notifAmount">57.53</span> interest credited to your account!</p>
+              </div>
+              <span class="notif-time">Just now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-3 g-4 mt-40">
+        <div class="col">
+          <div class="feature-box glass-card reveal tilt-card-sm h-100">
+            <div class="feature-icon">💸</div>
+            <h3>Zero Balance Account</h3>
+            <p>No non-maintenance penalties. Ever. Keep ₹0 or ₹10 Lakhs with complete peace of mind.</p>
+            <div class="pill-tag">No Hidden Charges</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="feature-box glass-card reveal delay-100 tilt-card-sm h-100">
+            <div class="feature-icon">🛡️</div>
+            <h3>DICGC Insured Safety</h3>
+            <p>Your money is backed up to ₹5,00,000 by RBI's deposit insurance corporation.</p>
+            <div class="pill-tag">100% Bank Security</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="feature-box glass-card reveal delay-200 tilt-card-sm h-100">
+            <div class="feature-icon">⚡</div>
+            <h3>Instant Account Opening</h3>
+            <p>Paperless KYC in 3 minutes flat using Video KYC and Aadhaar. No branch visits needed.</p>
+            <div class="pill-tag">3 Min Setup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GROWTH / REPO-RATE COMPARISON ============ -->
+  <section class="growth-section" id="growth">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">02 · TRANSPARENT GROWTH</span>
+        <h2>Your rate moves with the RBI repo rate.</h2>
+        <p class="section-desc">No hidden slabs, no fine print. Slice links your savings rate directly to the repo rate — see the difference over 5 years on a ₹5,00,000 balance.</p>
+      </div>
+
+      <div class="growth-panel glass-card reveal row g-5 align-items-center">
+        <div class="col-lg-7 growth-chart">
+          <div class="growth-bar-row">
+            <div class="growth-bar-label">
+              <span class="dot dot-purple"></span> slice savings <span class="rate-chip">@5.25% p.a.</span>
+            </div>
+            <div class="growth-bar-track">
+              <div class="growth-bar bar-slice" data-target="100"><span class="bar-value">₹6,50,075</span></div>
+            </div>
+          </div>
+          <div class="growth-bar-row">
+            <div class="growth-bar-label">
+              <span class="dot dot-muted"></span> traditional bank <span class="rate-chip muted">@~2.62% p.a.</span>
+            </div>
+            <div class="growth-bar-track">
+              <div class="growth-bar bar-traditional" data-target="72"><span class="bar-value">₹5,70,123</span></div>
+            </div>
+          </div>
+          <div class="growth-baseline">
+            <span class="dot dot-line"></span> principal deposited <span class="rate-chip muted">₹5,00,000</span>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="growth-highlight">
+            <span class="growth-highlight-label">Extra earnings over 5 years</span>
+            <span class="growth-highlight-number">₹<span class="count-up" data-target="79952" data-format="inr">0</span></span>
+            <span class="growth-highlight-sub">Same deposit. Same duration. Just a better rate that moves with you.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPEND INSIGHTS ============ -->
+  <section class="insights-section" id="insights">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">03 · KNOW YOUR MONEY</span>
+        <h2>See exactly where every rupee goes.</h2>
+        <p class="section-desc">Every transaction is sorted automatically — food, transport, bills, shopping — so patterns are obvious at a glance, not buried in a statement.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="insight-card glass-card reveal h-100">
+            <h3>Monthly breakdown</h3>
+            <p class="insight-sub">Auto-categorised in real time</p>
+            <div class="category-bars">
+              <div class="cat-row">
+                <span class="cat-label">🍔 Food & Dining</span>
+                <div class="cat-track"><div class="cat-fill" style="--pct:37%; background:linear-gradient(90deg,var(--accent-purple),var(--accent-magenta));"></div></div>
+                <span class="cat-pct">37%</span>
+              </div>
+              <div class="cat-row">
+                <span class="cat-label">🛒 Groceries</span>
+                <div class="cat-track"><div class="cat-fill" style="--pct:31%; background:linear-gradient(90deg,#3ee6d0,#10b981);"></div></div>
+                <span class="cat-pct">31%</span>
+              </div>
+              <div class="cat-row">
+                <span class="cat-label">💳 Transfers</span>
+                <div class="cat-track"><div class="cat-fill" style="--pct:14%; background:linear-gradient(90deg,#facc15,#f59e0b);"></div></div>
+                <span class="cat-pct">14%</span>
+              </div>
+              <div class="cat-row">
+                <span class="cat-label">🎬 Shopping</span>
+                <div class="cat-track"><div class="cat-fill" style="--pct:11%; background:linear-gradient(90deg,#60a5fa,#e0115f);"></div></div>
+                <span class="cat-pct">11%</span>
+              </div>
+              <div class="cat-row">
+                <span class="cat-label">✈️ Travel</span>
+                <div class="cat-track"><div class="cat-fill" style="--pct:7%; background:linear-gradient(90deg,#f472b6,#ff2d6f);"></div></div>
+                <span class="cat-pct">7%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column gap-4">
+          <div class="insight-mini glass-card reveal delay-100">
+            <div class="feature-icon">📊</div>
+            <h3>Clear breakdowns</h3>
+            <p>Visual charts and plain-language summaries. No confusing graphs, no data overload.</p>
+          </div>
+          <div class="insight-mini glass-card reveal delay-200">
+            <div class="feature-icon">🔁</div>
+            <h3>Monthly patterns</h3>
+            <p>Spot recurring spends and subscription creep before they add up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BORROW / LOAN CALCULATOR ============ -->
+  <section class="showcase-section" id="borrow">
+    <div class="container">
+      <div class="showcase-container glass-card reveal row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="sub-heading">04 · SLICE BORROW</span>
+          <h2>Need cash right now? Borrow in 3 taps.</h2>
+          <p>Get instant credit up to ₹5,00,000 disbursed straight to your bank account with flexible EMI tenures.</p>
+
+          <ul class="check-list">
+            <li><span>✓</span> Instant disbursal to any bank account</li>
+            <li><span>✓</span> Flexible repayment terms up to 12 months</li>
+            <li><span>✓</span> Transparent fees with zero hidden collateral</li>
+          </ul>
+
+          <button class="btn btn-purple btn-glow mt-20 magnetic" data-bs-toggle="modal" data-bs-target="#appModal">Apply for Borrow Limit</button>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="loan-calculator-widget">
+            <div class="calc-header">
+              <span>Instant Loan Disbursal Calculator</span>
+              <span class="live-pill">Live Rates</span>
+            </div>
+            <div class="calc-body">
+              <label>Selected Borrow Amount</label>
+              <div class="calc-value" id="calcValue">₹ 1,00,000</div>
+              <input type="range" class="form-range" id="loanRange" min="5000" max="500000" step="5000" value="100000">
+
+              <div class="calc-details">
+                <div>
+                  <span>Estimated Monthly EMI</span>
+                  <strong id="emiVal">₹ 9,168/mo</strong>
+                </div>
+                <div>
+                  <span>Tenure</span>
+                  <strong>12 Months</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIXED DEPOSITS ============ -->
+  <section class="fd-section" id="fd">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">05 · HIGH-YIELD FIXED DEPOSITS</span>
+        <h2>Lock in guaranteed returns up to 7.75% p.a.</h2>
+      </div>
+
+      <div class="fd-table-container glass-card reveal">
+        <table class="table table-borderless fd-table mb-0">
+          <thead>
+            <tr>
+              <th>Tenure</th>
+              <th>Regular Rates</th>
+              <th>Senior Citizens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>7 to 45 Days</td>
+              <td>3.50% p.a.</td>
+              <td>4.00% p.a.</td>
+            </tr>
+            <tr>
+              <td>46 to 179 Days</td>
+              <td>4.75% p.a.</td>
+              <td>5.25% p.a.</td>
+            </tr>
+            <tr>
+              <td>180 to 364 Days</td>
+              <td>6.50% p.a.</td>
+              <td>7.00% p.a.</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>12 Months (1 Year) 🔥</td>
+              <td><strong>7.25% p.a.</strong></td>
+              <td><strong>7.75% p.a.</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SAFETY ============ -->
+  <section class="safety-section" id="safety">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">06 · A SAFE SPACE FOR YOUR MONEY</span>
+        <h2>Protected, monitored, and never fine-printed.</h2>
+        <p class="section-desc">Backed by regulated infrastructure and round-the-clock monitoring, so your money stays safe without you having to think about it.</p>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="safety-badge glass-card reveal h-100">
+            <div class="feature-icon">🏦</div>
+            <h3>RBI Regulated</h3>
+            <p>Slice Small Finance Bank operates under direct RBI supervision as a scheduled bank.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="safety-badge glass-card reveal delay-100 h-100">
+            <div class="feature-icon">🔐</div>
+            <h3>256-bit SSL Encryption</h3>
+            <p>Every transaction and login is encrypted end-to-end, bank-grade, always on.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="safety-badge glass-card reveal delay-200 h-100">
+            <div class="feature-icon">🛡️</div>
+            <h3>₹5,00,000 DICGC Cover</h3>
+            <p>Deposits are insured up to ₹5 Lakhs under the Deposit Insurance and Credit Guarantee Corporation.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="safety-badge glass-card reveal delay-300 h-100">
+            <div class="feature-icon">👁️</div>
+            <h3>24/7 Fraud Monitoring</h3>
+            <p>Intelligent systems watch every transaction in real time to flag anything unusual instantly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORT ============ -->
+  <section class="support-section">
+    <div class="container">
+      <div class="support-panel glass-card reveal row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="sub-heading">07 · WE'VE GOT YOU</span>
+          <h2>Support only when you actually need it.</h2>
+          <p>No spam calls, no scripted upsells. Just real, round-the-clock help the moment something needs sorting out.</p>
+          <div class="support-tags">
+            <span class="pill-tag">No Spam Calls</span>
+            <span class="pill-tag">24/7 In-App Chat</span>
+            <span class="pill-tag">Avg. Reply &lt; 2 Min</span>
+          </div>
+        </div>
+        <div class="col-lg-6 support-visual">
+          <div class="chat-bubble bubble-left float-anim">Hi! How can I help with your account today? 👋</div>
+          <div class="chat-bubble bubble-right float-anim-delayed">My FD renewed automatically, thank you!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS — real Bootstrap Carousel ============ -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">08 · LOVED BY MILLIONS</span>
+        <h2>What our members say.</h2>
+      </div>
+
+      <div id="testimonialCarousel" class="carousel slide testimonial-slider glass-card reveal" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <p class="quote">"Getting daily interest credited every morning is so satisfying. Slice completely changed how I think about keeping money in a savings account."</p>
+            <div class="author">
+              <strong>Rohan Sharma</strong>
+              <span>Bengaluru</span>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <p class="quote">"Slice Borrow saved me during an emergency medical payment. Approved in 2 minutes and directly transferred to my bank!"</p>
+            <div class="author">
+              <strong>Ananya Iyer</strong>
+              <span>Mumbai</span>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <p class="quote">"The cleanest UI of any banking app in India. Instant UPI payments with zero lag."</p>
+            <div class="author">
+              <strong>Vikram Patel</strong>
+              <span>Delhi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-controls">
+          <button class="slider-btn carousel-control-prev-custom" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">←</button>
+          <div class="carousel-indicators slider-dots">
+            <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2"></button>
+          </div>
+          <button class="slider-btn carousel-control-next-custom" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ — real Bootstrap Accordion ============ -->
+  <section class="faq-section" id="faqs">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="sub-heading">09 · GOT QUESTIONS?</span>
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="accordion faq-accordion glass-card reveal" id="faqAccordion">
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              Is Slice a licensed bank in India?
+            </button>
+          </h3>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes. Slice Small Finance Bank Limited is a scheduled bank regulated directly by the Reserve Bank of India (RBI). All deposits up to ₹5,00,000 are insured under DICGC.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              How does Daily Interest payout work?
+            </button>
+          </h3>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Interest is calculated every day on your end-of-day balance and credited directly to your savings account every morning before you wake up.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              Are there any minimum balance maintenance fees?
+            </button>
+          </h3>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              No! Slice Savings is a zero-balance account with zero non-maintenance penalties or hidden service charges.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+              How is my rate linked to the RBI repo rate?
+            </button>
+          </h3>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Your savings rate moves in step with the RBI repo rate, so the calculation stays transparent — no hidden internal slabs that quietly change without notice.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="cta-band reveal">
+    <div class="container">
+      <div class="cta-band-inner glass-card d-flex flex-wrap justify-content-between align-items-center">
+        <div class="cta-copy">
+          <span class="sub-heading">JOIN THE NEW AGE OF BANKING</span>
+          <h2>Your money, moving as fast as you do.</h2>
+          <button class="btn btn-large btn-purple btn-glow magnetic" data-bs-toggle="modal" data-bs-target="#appModal">Get the slice app</button>
+        </div>
+        <div class="cta-qr magnetic" data-bs-toggle="modal" data-bs-target="#appModal">
+          <div class="modal-qr-box small">
+            <div class="dummy-qr">📱<br>Scan Me</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="slice-footer">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <span class="logo-text">slice</span><span class="logo-dot">.</span>
+          </div>
+          <p>Slice Small Finance Bank Limited. Regulated by the Reserve Bank of India.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <h4>Products</h4>
+            <a href="#savings">Savings Account</a>
+            <a href="#borrow">Slice Borrow</a>
+            <a href="#fd">Fixed Deposits</a>
+            <a href="#insights">Spend Insights</a>
+          </div>
+          <div>
+            <h4>Legal & Security</h4>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">DICGC Coverage</a>
+            <a href="#">Grievance Redressal</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Slice Small Finance Bank Limited. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ APP DOWNLOAD MODAL — real Bootstrap Modal ============ -->
+  <div class="modal fade app-modal-bs" id="appModal" tabindex="-1" aria-labelledby="appModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-body text-center">
+          <button type="button" class="close-modal" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+          <h3 id="appModalLabel">Get the slice app</h3>
+          <p>Scan the QR code or enter your mobile number to get the app link.</p>
+
+          <div class="modal-qr-box mx-auto">
+            <div class="dummy-qr">📱 [ QR CODE ]</div>
+          </div>
+
+          <div class="phone-input-group">
+            <span>+91</span>
+            <input type="tel" class="form-control" placeholder="Enter 10-digit mobile number" maxlength="10" id="phoneInput">
+            <button class="btn btn-purple" id="getLinkBtn">Get Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Bootstrap Bundle (includes Popper, needed for modal/accordion/carousel/collapse) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
